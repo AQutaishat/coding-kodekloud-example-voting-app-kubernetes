@@ -19,7 +19,7 @@ minikube servcie [service name] --url
 
 
 ## kubectl commands
-```Shell 
+```bash 
 kubectl get pods
 kubectl get po
 kubectl get replicaset
