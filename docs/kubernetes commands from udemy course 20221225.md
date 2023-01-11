@@ -20,6 +20,8 @@ minikube servcie [service name] --url
 
 ## kubectl commands
 ```bash 
+minikube status
+
 kubectl get pods
 kubectl get po
 kubectl get replicaset
@@ -28,6 +30,7 @@ kubectl get deployments
 kubectl get services
 
 kubectl get pods -o wide
+kubectl get services #get storage classes
 
 kubectl run nginx --image=nginx
 kubectl describe pod nginx
@@ -56,9 +59,19 @@ kubectl create deployment httpd-frontend --image=httpd:2.4-alpine --replicas=3
  kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1 --record=true
  kubectl rollout undo deployment/myapp-deployment #it adds new revistion and remove the old revision that rolled back to
 ```
+* you can delete by :
+  * file  name using (-f)
+  * object name (kubectl delete deployment [name])
+  * by using labels by using (-l)
+    * ``` kubectl delete deployments, services -l group=example
+
+* you can combine several objects in one yamel file and separate them by (---)
+* you can specify how k8 check if pod is working or not, in definition of pod, add (livenessProbe), 
+* use pod property (imagePullPolicy) and set it to (Always) to make it pull the image when it is changed not to have to change image tag to enforce pulling it
 
  * deployment rollout strategy type : recreate OR rollingUpdate (default)
- * deployment creates new version automatically when updating yaml file or execute command. 
+ * deployment creates new version automatically when updating yaml file or execute command. +
+* images must be on hub, not local images
 
  * three types of services (networking)
  	- nodePort: expose pods to outside node, the type (loadBalanc) is similar but for cloud apps or when install load balancer, if exists in local it will act like nodePort, (port, taregetPort, nodePort). it acts like node balancer between nodes using random algorithm, you access it using node url plus service nodePort port , you can get its url using (minikube service [name] --url). if same pod are spanned accross mulitple , it can be accessed on all nodes same way, node ip + service port, nodePort can be used for single pod in single node, or multi pod in single node, or multi pod in multi node. nodePorts range only betwee ( 3000 - 3767)
